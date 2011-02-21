@@ -1,0 +1,3 @@
+This version has only been tested in Arduino 22, please remove:
+
+arduino-0022\hardware\arduino\cores\arduino\WInterrupts.c
