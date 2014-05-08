@@ -25,6 +25,10 @@
  *    plm.c          Libplm library. Contains all functions used by the library and the 
  *                   SPI initialization function for use with the PLM-1.
  *    serial.c       Functions used for serial communication.
+ *
+ *For compatibility with newers IDE, some changes was made.
+ * Changes: Changed the function set_output for the register configuration and commented the declaration 
+ * of pins MISO, MOSI, SCK.
  ******************************************************************************************/
 
 #include <stdio.h>
@@ -38,10 +42,11 @@
 #include "plm1.h"
 #include "serial.h"
 
+/*
 #define MOSI            B,3
 #define MISO            B,4
 #define SCK             B,5
-
+*/
 
 /* Timer 0 Configuration */
 #define TIMER0_CLOCK_SRC_HZ         ( F_CPU / 1024 )  /* Nb ticks per second = 6144000 / 1024 = 6000 */		  //15626
@@ -66,13 +71,17 @@ main( void )
 {
 
    
-
+/*
    PIN_OUTPUT(MOSI);
    PIN_OUTPUT(SCK);
    PIN_OUTPUT(nPLM_RESET);
    PIN_OUTPUT(PLM_CS);
    PIN_INPUT(MISO);
+*/
 
+   DDRB &= ~_BV(4) | ~_BV(1); //clear these bits
+   DDRB |= _BV(5)| _BV(3)| _BV(2)| _BV(0); // set these bits
+   
    /* SPI communication must be initialized before plm1 library. */
    spi_init( SPI_SPEED_F16 );
 
@@ -217,6 +226,5 @@ SIGNAL(USART_UDRE_vect)
    uart_tx_flag = true;
 
 }
-
 
 
